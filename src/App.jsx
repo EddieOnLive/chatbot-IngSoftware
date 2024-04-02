@@ -1,23 +1,25 @@
 import { useState } from "react";
-import ChatBot from "react-simple-chatbot";
 import "./App.css";
+import Chatbot from "react-chatbot-kit";
+import "react-chatbot-kit/build/main.css";
+
+import config from "./configs/chatbotConfig";
+import MessageParser from "./chatbot/MessageParser";
+import ActionProvider from "./chatbot/ActionProvider";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <div className="bg-slate-800 flex justify-center">
-        <div>
-          <ChatBot
-            steps={[
-              {
-                id: "hello-world",
-                message: "Hello World!",
-                end: true,
-              },
-            ]}
-          />
+        <div className="mt-10">
+          <div className="">
+            <Chatbot
+              className
+              config={config}
+              messageParser={MessageParser}
+              actionProvider={ActionProvider}
+            />
+          </div>
         </div>
       </div>
     </>
