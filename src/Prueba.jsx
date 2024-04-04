@@ -30,13 +30,22 @@ class WikiSearch extends Component {
       .then((response) => response.json())
       .then((data) => {
         const [searchSuggestion, ...searchResults] = data;
-        const result = searchResults.length > 0 ? searchResults[0] : "No se encontraron resultados.";
-        const wikiLink = searchResults.length > 0 ? `https://es.wikipedia.org/wiki/${searchResults[0]}` : "";
+        const result =
+          searchResults.length > 0
+            ? searchResults[0]
+            : "No se encontraron resultados.";
+        const wikiLink =
+          searchResults.length > 0
+            ? `https://es.wikipedia.org/wiki/${searchResults[0]}`
+            : "";
         this.setState({ loading: false, result, wikiLink });
       })
       .catch((error) => {
         console.error("Error fetching Wikipedia data:", error);
-        this.setState({ loading: false, result: "Error al buscar en Wikipedia." });
+        this.setState({
+          loading: false,
+          result: "Error al buscar en Wikipedia.",
+        });
       });
   }
 
@@ -60,7 +69,11 @@ class WikiSearch extends Component {
                 <p>{result}</p>
                 {wikiLink && (
                   <div style={{ textAlign: "center", marginTop: 20 }}>
-                    <a href={wikiLink} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={wikiLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       Enlace a la página de Wikipedia
                     </a>
                   </div>
@@ -70,7 +83,9 @@ class WikiSearch extends Component {
             {!loading && (
               <div style={{ textAlign: "center", marginTop: 20 }}>
                 {!trigger && (
-                  <button onClick={() => this.triggerNext()}>Buscar nuevamente</button>
+                  <button onClick={() => this.triggerNext()}>
+                    Buscar nuevamente
+                  </button>
                 )}
               </div>
             )}
