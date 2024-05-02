@@ -8,7 +8,7 @@ function App() {
       <div className="bg-slate-800 flex justify-center">
         <div className="mt-10">
           <div className="">
-            <ExampleDBPedia></ExampleDBPedia>
+            <ExampleDBPedia/>
           </div>
         </div>
       </div>

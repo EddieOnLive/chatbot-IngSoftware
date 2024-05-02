@@ -23,6 +23,31 @@ class WikiSearch extends Component {
 
     // Construir la URL de la API de Wikipedia en español
     const url = `https://es.wikipedia.org/w/api.php?action=opensearch&search=${encodedSearch}&format=json&origin=*`;
+    const urlContenido = `https://es.wikipedia.org/w/api.php?action=parse&page=${encodedSearch}&format=json&prop=text&origin=*`;
+
+    fetch(urlContenido)
+      .then((response) => response.json())
+      .then((data) => {
+        const parser = new DOMParser();
+        const articleHTML = parser.parseFromString(
+          data.parse.text["*"],
+          "text/html"
+        );
+
+        const paragraphs = articleHTML.querySelectorAll("p");
+        let excerpt = "";
+
+        for (let i = 0; i < Math.min(paragraphs.length, 3); i++) {
+          excerpt += paragraphs[i].textContent + "\n\n";
+        }
+
+        const excerptElement = document.createElement("div");
+        excerptElement.textContent = excerpt;
+        this.setState({ loading: false, excerpt });
+
+        console.log(excerpt);
+        /* document.body.appendChild(excerptElement); */
+      });
 
     fetch(url)
       .then((response) => response.json())
@@ -32,7 +57,7 @@ class WikiSearch extends Component {
           searchResults.length > 0
             ? searchResults[2][0]
             : "No se encontraron resultados.";
-        console.log(result);
+        /* console.log(searchResults); */
         const wikiLink =
           searchResults.length > 0
             ? `https://es.wikipedia.org/wiki/${searchResults[0][0]}`
@@ -55,7 +80,7 @@ class WikiSearch extends Component {
   }
 
   render() {
-    const { trigger, loading, result, wikiLink } = this.state;
+    const { trigger, loading, result, wikiLink, excerpt } = this.state;
     return (
       <div className="wiki-search">
         {loading ? (
@@ -64,7 +89,7 @@ class WikiSearch extends Component {
           <div>
             {result && (
               <div>
-                <p>{result}</p>
+                <p>{excerpt}</p>
                 {wikiLink && (
                   <div style={{ textAlign: "center", marginTop: 20 }}>
                     <a
