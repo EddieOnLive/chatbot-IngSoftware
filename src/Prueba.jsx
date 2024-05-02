@@ -5,25 +5,23 @@ import ChatBot, { Loading } from "react-simple-chatbot";
 class WikiSearch extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       loading: true,
       result: "",
       wikiLink: "",
       trigger: false,
     };
-
     this.triggerNext = this.triggerNext.bind(this);
   }
 
   componentDidMount() {
     const { steps } = this.props;
-    const search = steps.search.value;
+    const searchTerm = steps.search.value;
 
-    // Encode search term for Wikipedia API
-    const encodedSearch = encodeURIComponent(search);
+    // Codificar el término de búsqueda para la API de Wikipedia
+    const encodedSearch = encodeURIComponent(searchTerm);
 
-    // Construct Wikipedia API URL in Spanish
+    // Construir la URL de la API de Wikipedia en español
     const url = `https://es.wikipedia.org/w/api.php?action=opensearch&search=${encodedSearch}&format=json&origin=*`;
 
     fetch(url)
@@ -32,16 +30,17 @@ class WikiSearch extends Component {
         const [searchSuggestion, ...searchResults] = data;
         const result =
           searchResults.length > 0
-            ? searchResults[0]
+            ? searchResults[2][0]
             : "No se encontraron resultados.";
+        console.log(result);
         const wikiLink =
           searchResults.length > 0
-            ? `https://es.wikipedia.org/wiki/${searchResults[0]}`
+            ? `https://es.wikipedia.org/wiki/${searchResults[0][0]}`
             : "";
         this.setState({ loading: false, result, wikiLink });
       })
       .catch((error) => {
-        console.error("Error fetching Wikipedia data:", error);
+        console.error("Error al buscar en Wikipedia:", error);
         this.setState({
           loading: false,
           result: "Error al buscar en Wikipedia.",
@@ -57,7 +56,6 @@ class WikiSearch extends Component {
 
   render() {
     const { trigger, loading, result, wikiLink } = this.state;
-
     return (
       <div className="wiki-search">
         {loading ? (
