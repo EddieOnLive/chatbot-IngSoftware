@@ -90,7 +90,7 @@ const WikiSearch = ({ steps, triggerNextStep }) => {
           )}
           {!loading && (
             <div style={{ textAlign: 'center', marginTop: 20 }}>
-              {!result && (
+              {result && (
                 <button onClick={handleNext}>Buscar nuevamente</button>
               )}
             </div>
