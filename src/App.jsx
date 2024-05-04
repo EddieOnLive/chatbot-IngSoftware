@@ -1,6 +1,6 @@
 import "./App.css";
 import "react-chatbot-kit/build/main.css";
-import ExampleDBPedia from "./Prueba";
+import Prueba from "./Prueba";
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
       <div className="bg-slate-800 flex justify-center">
         <div className="mt-10">
           <div className="">
-            <ExampleDBPedia/>
+            <Prueba/>
           </div>
         </div>
       </div>
